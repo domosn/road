@@ -1,0 +1,46 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 使body的高度等於視窗的高度 */
+	margin: 0; /* 移除邊距 */
+	padding: 0; /* 移除內間距 */
+}
+
+h1 {
+	text-align: center;
+}
+
+.Logo {
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(158, 152, 152);
+	width: 10rem;
+	height: 10rem;
+}
+
+.btn-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.go-btn {
+	background-color: rgb(221, 197, 16);
+	color: inherit;
+	border: none;
+	padding: auto;
+	margin: auto;
+	cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	width: 50px;
+	height: 30px;
+}
+
+.go-btn:hover {
+	background-color: rgb(185, 165, 14);
+}

@@ -1,0 +1,44 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    height: 100vh; /* 使body的高度等於視窗的高度 */
+	gap: 10px;
+}
+
+h1 {
+	text-align: center;
+}
+
+.Logo {
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(158, 152, 152);
+	width: 10rem;
+	height: 10rem;
+}
+
+.btn-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.btn-list button {
+	display: inline-block;
+    padding: 10px 20px;
+    background-color: #cfcfcf;
+    color: white;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.btn-list button:hover {
+	background-color: rgb(188, 187, 187); /* 滑鼠懸停時的背景顏色 */
+	color: rgb(255, 105, 50);
+}

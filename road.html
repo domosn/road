@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>路線規劃頁面</title>
+		<style>
+			body {
+				font-family: 微軟正黑體, Arial, sans-serif;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh; /* 使body的高度等於視窗的高度 */
+				background-color: #E9D3BB;
+				margin: 0;
+			}
+
+			.container {
+				background-color: #E9D3BB;
+				padding: 40px;
+				border-radius: 4px;
+				text-align: center;
+				width: 80%;
+				height: 100%;
+				max-width: 600px;
+			}
+			.hidden {
+				display: none;
+			}
+			h1 {
+
+			}
+			.logo {
+				display: flex;
+				width: 200px;
+				height: auto;
+				/* padding-left: 200px; */
+				margin-top: 100px;
+				margin-bottom: 50px; /* 調整為適合的值 */
+			}
+			.button,
+			.country-button {
+				display: inline-block;
+				padding: 10px 0px;
+				background-color: #CE7A4F;
+				color: white;
+				text-align: center;
+				border: none;
+				cursor: pointer;
+				border-radius: 4px;
+				width: 25%;
+			}
+			.button:hover,
+			.country-button:hover {
+				background-color: #6E4D48;
+			}
+			.dropdown {
+				/* margin-bottom: 20px; */
+			}
+			.dropdown select {
+				padding: 10px;
+				width: 100%;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				background-color: #cfcfcf;
+			}
+			.results {
+				margin-top: 30px;
+			}
+			.result-item {
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+				border-bottom: 1px solid #ddd;
+				padding-bottom: 10px;
+			}
+			.result-item img {
+				width: 100px;
+				height: 100px;
+				margin-right: 15px;
+				border-radius: 6px;
+			}
+			.result-item > div {
+				text-align: left;
+			}
+			.result-item > div > span {
+				font-size: 26px;
+				font-weight: bold;
+				display: inline-block;
+				margin: auto auto 10px auto;
+			}
+			.result-item > div > div a {
+				display: inline-block;
+				margin: 5px 5px 5px auto;
+				text-decoration: none;
+			}
+			.inline-container {
+				display: flex;
+				align-items: flex-start;
+				min-height: 60px;
+			}
+			.inline-container p {
+				margin: 0;
+				min-width: 48px;
+			}
+			.inline-container div {
+				display: inline;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="page1" class="container">
+			<div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
+				<h1>Roming the global</h1>
+				<img src="logo.jpg" alt="LOGO" class="logo" />
+				<div class="button" onclick="goToPage2()">GO!</div>
+			</div>
+		</div>
+
+		<div id="page2" class="container hidden">
+			<h1 style="text-align: start">國家</h1>
+			<div>
+				<div class="country-button" onclick="selectCountry('日本')">日本</div>
+				<div class="country-button" onclick="selectCountry('韓國')" style="margin: 25px 40px">韓國</div>
+				<div class="country-button" onclick="selectCountry('泰國')">泰國</div>
+				<br />
+				<div class="country-button" onclick="selectCountry('美國')">美國</div>
+				<div class="country-button" onclick="selectCountry('義大利')" style="margin: 25px 40px">義大利</div>
+				<div class="country-button" onclick="selectCountry('法國')">法國</div>
+			</div>
+		</div>
+
+		<div id="page3" class="container hidden">
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<h1 id="country-title">日本</h1>
+				<div class="dropdown">
+					<select id="city"></select>
+				</div>
+				<div class="dropdown">
+					<select id="type"></select>
+				</div>
+				<button style="font-size: larger" class="button" onclick="search()">搜尋</button>
+				<div style="font-size: medium" class="country-button" onclick="previousPage(this)">上一頁</div>
+			</div>
+			<div class="results" id="results"></div>
+			<!-- 搜尋結果將顯示在這裡 -->
+		</div>
+
+		<div id="page4" class="container hidden" style="text-align: start">
+			<div id="routeTab1" class="wrap">
+				<h1>規劃路線：</h1>
+				<div class="inline-container">
+					<p>早上：</p><div id="morningText"></div>
+				</div>
+				<div class="inline-container">
+					<p>下午：</p><div id="afternoonText"></div>
+				</div>
+				<div class="inline-container">
+					<p>晚上：</p><div id="nightText"></div>
+				</div>
+
+				<div style="display: flex; justify-content: space-between; margin-top: 20px;">
+					<div style="text-align: center">
+						<img src="" alt="" style="height: 100px" />
+						<p>早上</p>
+					</div>
+					<div style="text-align: center">
+						<img src="" alt="" style="height: 100px" />
+						<p>下午</p>
+					</div>
+					<div style="text-align: center">
+						<img src="" alt="" style="height: 100px" />
+						<p>晚上</p><br>
+					</div>
+				</div>
+			</div>
+
+			<div id="routeTab2" class="wrap hidden">
+				<h1>移動建議：</h1>
+				<div class="inline-container">
+					<p>早上：</p><div id="morningSuggestion"></div>
+				</div>
+				<div class="inline-container">
+					<p>下午：</p><div id="afternoonSuggestion"></div>
+				</div>
+				<div class="inline-container">
+					<p>晚上：</p><div id="nightSuggestion"></div>
+				</div>
+
+				<h1>冷知識：</h1>
+				<div id="trivia"></div>
+			</div>
+
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<div style="font-size: medium" class="country-button" onclick="changeTab()">更多</div>
+				<div style="font-size: medium" class="country-button" onclick="previousPage(this)">上一頁</div>
+			</div>
+		</div>
+
+		<script>
+			const countryData = {
+				日本: ["東京", "大阪"],
+			};
+			const typeData = {
+				日本: ['歷史', '自然', '休閒'],
+			};
+
+			function goToPage2() {
+				document.getElementById("page1").classList.add("hidden");
+				document.getElementById("page2").classList.remove("hidden");
+			}
+
+			function previousPage(e) {
+				const parentDiv = e.closest('.container');
+				const parentId = parentDiv.id;
+
+				const newPageNumber = parseInt(parentId.replace('page', '')) - 1;
+				const newId = `page${newPageNumber}`;
+
+				document.getElementById(parentId).classList.add("hidden");
+				document.getElementById(newId).classList.remove("hidden");
+
+				if (parentId == 'page3') document.getElementById("results").innerHTML = "";
+				if (parentId == 'page4') {
+					document.getElementById("routeTab1").classList.remove("hidden");
+					document.getElementById("routeTab2").classList.add("hidden");
+				};
+			}
+
+			function selectCountry(country) {
+				document.getElementById("country-title").textContent = country;
+				document.getElementById("page2").classList.add("hidden");
+				document.getElementById("page3").classList.remove("hidden");
+
+				// 更新城市選項
+				const cities = countryData[country] ?? [];
+				const cityDropdown = document.getElementById("city");
+				cityDropdown.innerHTML = '<option value="">城市</option>';
+				cities.forEach((city) => {
+					const option = document.createElement("option");
+					option.value = city;
+					option.textContent = city;
+					cityDropdown.appendChild(option);
+				});
+
+				// 更新類型
+				const types = typeData[country] ?? [];
+				const typeDropdown = document.getElementById("type");
+				typeDropdown.innerHTML = '<option value="">類型</option>';
+				types.forEach((type) => {
+					const option = document.createElement("option");
+					option.value = type;
+					option.textContent = type;
+					typeDropdown.appendChild(option);
+				});
+			}
+
+			function search ()
+			{
+				const city = document.getElementById("city").value;
+				const type = document.getElementById("type").value;
+				const results = document.getElementById("results");
+				results.innerHTML = "";
+
+				// 模擬搜尋結果
+				const filteredData = [
+					{
+						city: "東京",
+						type: "歷史",
+						name: "東京鐵塔",
+						img: "東京鐵塔.jpg",
+						morning_text: "上野公園。保留了江戶時代以來的日本園林風情，很有日本味道和文化內涵的公園，著名賞櫻地。",
+						afternoon_text: "東京鐵塔。日本的地標建築，站在塔頂可以俯瞰東京全市，夜景更是迷人。",
+						night_text: "銀座。遍布著高檔的購物中心，各種品牌和餐廳，也是文化藝術的據點，擁有豐富的劇院、畫廊和音樂廳。",
+						morning_img: "上野公園.jpg",
+						afternoon_img: "東京鐵塔.jpg",
+						night_img: "銀座.jpeg",
+					},
+					{
+						city: "東京",
+						type: "歷史",
+						name: "淺草寺",
+						img: "淺草寺.jpg",
+						morning_text: "早上：淺草寺，東京最著名、最古老的寺廟，周圍有雷門、五重塔等古蹟，還可以逛仲見世商店街，寺內可以求籤。",
+						afternoon_text: "下午：新宿，這個區域有許多知名的地標和景點，包括新宿御苑，這是一個美麗的皇家花園，供人們休閒散步和欣賞自然美景。此外，新宿還擁有歌舞伎町，這是東京最著名的娛樂區之一，擁有眾多的酒吧、夜店、劇場和娛樂場所，為遊客提供了豐富多彩的夜生活體驗。",
+						night_text: "晚上：澀谷，被視為代表東京之時尚潮流基地，洋溢著懷舊氛圍的景觀還會在不經意間映入眼簾，澀谷的觀光景點不僅限於地面，可以前往——「澀谷SKY」可以俯瞰整個東京市景。",
+						morning_img: "淺草寺.jpg",
+						afternoon_img: "新宿女僕.jpeg",
+						night_img: "澀谷.jpeg",
+					},
+					{
+						city: "東京",
+						type: "休閒",
+						name: "秋葉原",
+						img: "秋葉原.jpg",
+						morning_text: "早上：湘南海岸，在江之島海岸線，漫步感受湘南海岸的風情，再到達鐮倉高校前，拍一組《灌籃高手》同款，再體驗乘坐江之電（連接藤澤至鐮倉的路面電車行經路線含括了鐮倉大部分的著名景點）。",
+						afternoon_text: "下午：鶴岡八幡宮，日本三大八幡宮之一，這裡也以欣賞自然美景著稱，出宮門的小町街道路兩側分布著鱗次櫛比的店鋪。",
+						night_text: "晚上：晚上： 秋葉原，動漫愛好者的天堂，也是買電器的好地方，還有女僕咖啡這樣的日本特色。",
+						morning_img: "湘南海岸.jpg",
+						afternoon_img: "鶴岡八幡宮.jpg",
+						night_img: "秋葉原.jpg",
+					},
+					{
+						city: "東京",
+						type: "休閒",
+						name: "銀座",
+						img: "銀座.jpeg",
+						morning_text: "上野公園。保留了江戶時代以來的日本園林風情，很有日本味道和文化內涵的公園，著名賞櫻地。",
+						afternoon_text: "東京鐵塔。日本的地標建築，站在塔頂可以俯瞰東京全市，夜景更是迷人。",
+						night_text: "銀座。遍布著高檔的購物中心，各種品牌和餐廳，也是文化藝術的據點，擁有豐富的劇院、畫廊和音樂廳。",
+						morning_img: "上野公園.jpg",
+						afternoon_img: "東京鐵塔.jpg",
+						night_img: "銀座.jpeg",
+					},
+					{
+						city:"東京",
+						type: "休閒",
+						name: "新宿",
+						img: "新宿女僕.jpeg",
+						morning_text: "早上：淺草寺，東京最著名、最古老的寺廟，周圍有雷門、五重塔等古蹟，還可以逛仲見世商店街，寺內可以求籤。",
+						afternoon_text: "下午：新宿，這個區域有許多知名的地標和景點，包括新宿御苑，這是一個美麗的皇家花園，供人們休閒散步和欣賞自然美景。此外，新宿還擁有歌舞伎町，這是東京最著名的娛樂區之一，擁有眾多的酒吧、夜店、劇場和娛樂場所，為遊客提供了豐富多彩的夜生活體驗。",
+						night_text: "晚上：澀谷，被視為代表東京之時尚潮流基地，洋溢著懷舊氛圍的景觀還會在不經意間映入眼簾，澀谷的觀光景點不僅限於地面，可以前往——「澀谷SKY」可以俯瞰整個東京市景。",
+						morning_img: "淺草寺.jpg",
+						afternoon_img: "新宿女僕.jpeg",
+						night_img: "澀谷.jpeg",
+					},
+					{
+						city: "東京",
+						type: "自然",
+						name: "湘南海岸",
+						img: "湘南海岸.jpg",
+						morning_text: "早上：湘南海岸，在江之島海岸線，漫步感受湘南海岸的風情，再到達鐮倉高校前，拍一組《灌籃高手》同款，再體驗乘坐江之電（連接藤澤至鐮倉的路面電車行經路線含括了鐮倉大部分的著名景點）。",
+						afternoon_text: "下午：鶴岡八幡宮，日本三大八幡宮之一，這裡也以欣賞自然美景著稱，出宮門的小町街道路兩側分布著鱗次櫛比的店鋪。",
+						night_text: "晚上：晚上： 秋葉原，動漫愛好者的天堂，也是買電器的好地方，還有女僕咖啡這樣的日本特色。",
+						morning_img: "湘南海岸.jpg",
+						afternoon_img: "鶴岡八幡宮.jpg",
+						night_img: "秋葉原.jpg",
+					},
+					{
+						city: "東京",
+						type: "自然",
+						name: "上野公園",
+						img: "上野公園.jpg",
+						morning_text: "上野公園。保留了江戶時代以來的日本園林風情，很有日本味道和文化內涵的公園，著名賞櫻地。",
+						afternoon_text: "東京鐵塔。日本的地標建築，站在塔頂可以俯瞰東京全市，夜景更是迷人。",
+						night_text: "銀座。遍布著高檔的購物中心，各種品牌和餐廳，也是文化藝術的據點，擁有豐富的劇院、畫廊和音樂廳。",
+						morning_img: "上野公園.jpg",
+						afternoon_img: "東京鐵塔.jpg",
+						night_img: "銀座.jpeg",
+						morning_suggestion: "上野公園。可搭乘銀座線與日比谷線的上野站或JR山手線的鶯谷站前往。",
+						afternoon_suggestion: "東京鐵塔。可搭乘都營大江戶線至赤羽橋站或日比谷線至神谷町站前往。",
+						night_suggestion: "銀座。可搭乘有樂町線銀座一丁目站或日比谷線銀座站前往。",
+						trivia: [
+							"現金準備：雖然有許多地方接受信用卡，但一些小餐館和商店仍接受現金。因此，隨身攜帶一些現金很重要。",
+							"餐館排隊：受歡迎的餐館可能需要排隊，尤其是在高峰用餐時間。前提預訂或避開高峰時間(如午餐12點至1點，晚餐6點至8點)用餐會更方便。"
+						]
+					},
+					{
+						city: "東京",
+						type: "休閒",
+						name: "澀谷",
+						img: "澀谷.jpeg",
+						morning_text: "早上：淺草寺，東京最著名、最古老的寺廟，周圍有雷門、五重塔等古蹟，還可以逛仲見世商店街，寺內可以求籤。",
+						afternoon_text: "下午：新宿，這個區域有許多知名的地標和景點，包括新宿御苑，這是一個美麗的皇家花園，供人們休閒散步和欣賞自然美景。此外，新宿還擁有歌舞伎町，這是東京最著名的娛樂區之一，擁有眾多的酒吧、夜店、劇場和娛樂場所，為遊客提供了豐富多彩的夜生活體驗。",
+						night_text: "晚上：澀谷，被視為代表東京之時尚潮流基地，洋溢著懷舊氛圍的景觀還會在不經意間映入眼簾，澀谷的觀光景點不僅限於地面，可以前往——「澀谷SKY」可以俯瞰整個東京市景。",
+						morning_img: "淺草寺.jpg",
+						afternoon_img: "新宿女僕.jpeg",
+						night_img: "澀谷.jpeg",
+					},
+					{
+						city: "大阪",
+						type: "歷史",
+						name: "通天閣",
+						img: "通天閣.jpg",
+					},
+					{
+						city: "大阪",
+						type: "歷史",
+						name: "鶴岡八幡宮",
+						img: "鶴岡八幡宮.jpg",
+					},
+					{
+						city: "大阪",
+						type: "自然",
+						name: "大阪城公園",
+						img: "大阪城公園.jpg",
+					},
+					{
+						city: "大阪",
+						type: "自然",
+						name: "湘南海岸",
+						img: "湘南海岸.jpg",
+					},
+					{
+						city: "大阪",
+						type: "休閒",
+						name: "環球影城",
+						img: "大阪環球影城.jpeg",
+					},
+					{
+						city: "大阪",
+						type: "休閒",
+						name: "心齋橋",
+						img: "心齋橋.jpg",
+					},
+					{
+						city: "大阪",
+						type: "休閒",
+						name: "大阪海洋館",
+						img: "大阪海洋館.jpeg",
+					},
+				];
+
+				filteredData.forEach((item) => {
+					if (city == item.city && type == item.type) {
+						const div = document.createElement("div");
+						div.className = "result-item";
+						div.innerHTML = `<img src="${item.img}" alt="${item.name}">
+							<div>
+							<span>${item.name}</span>
+							<div>
+								<a href="javascript:void(0);">${item.city}</a>
+								<a href="javascript:void(0);">#${item.type}</a>
+							</div>
+							</div>`;
+						results.appendChild(div);
+						div.onclick = () => {showPlanRoute(item);};
+					}
+				});
+			}
+
+			function showPlanRoute (item) {
+				document.getElementById("page3").classList.add("hidden");
+				document.getElementById("page4").classList.remove("hidden");
+
+				document.getElementById("morningText").innerText = item.morning_text || "";
+				document.getElementById("afternoonText").innerText = item.afternoon_text || "";
+				document.getElementById("nightText").innerText = item.night_text || "";
+
+				const images = document.querySelectorAll("#page4 img");
+				images[0].src = item.morning_img || "";
+				images[0].alt = getImgName(item.morning_img);
+				images[1].src = item.afternoon_img || "";
+				images[1].alt = getImgName(item.afternoon_img);
+				images[2].src = item.night_img || "";
+				images[2].alt = getImgName(item.night_img);
+
+				document.getElementById("morningSuggestion").innerText = item.morning_suggestion || "";
+				document.getElementById("afternoonSuggestion").innerText = item.afternoon_suggestion || "";
+				document.getElementById("nightSuggestion").innerText = item.night_suggestion || "";
+
+				const triviaContainer = document.getElementById("trivia");
+				triviaContainer.innerHTML = "";
+				const triviaArray = item.trivia || [];
+				triviaArray.forEach(trivia => {
+					const p = document.createElement("p");
+					p.innerText = trivia;
+					triviaContainer.appendChild(p);
+				});
+			}
+
+			function changeTab () {
+				const tab1 = document.getElementById("routeTab1");
+				const tab2 = document.getElementById("routeTab2");
+
+				if (tab1.classList.contains("hidden")) {
+					tab1.classList.remove("hidden");
+					tab2.classList.add("hidden");
+
+				} else {
+					tab1.classList.add("hidden");
+					tab2.classList.remove("hidden");
+				}
+			}
+
+			function getImgName (i) {
+				if (i == undefined) return "";
+				return i.substring(0, i.indexOf('.'));
+			}
+		</script>
+	</body>
+</html>
