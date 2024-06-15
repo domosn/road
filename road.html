@@ -1,72 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>路線規劃頁面</title>
 		<style>
 			body {
-				font-family: 微軟正黑體, Arial, sans-serif;
+				font-family: "Microsoft JhengHei", Arial, sans-serif;
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				height: 100vh; /* 使body的高度等於視窗的高度 */
+				height: 100vh;
 				background-color: #E9D3BB;
 				margin: 0;
 			}
 
 			.container {
 				background-color: #E9D3BB;
-				padding: 40px;
+				/* padding: 20px; */
 				border-radius: 4px;
 				text-align: center;
-				width: 80%;
-				height: 100%;
+				width: 90%;
 				max-width: 600px;
 			}
+
 			.hidden {
 				display: none;
 			}
-			h1 {
 
+			h1 {
+				font-size: 1.5em;
+				margin: 0.5em 0;
 			}
+
 			.logo {
-				display: flex;
-				width: 200px;
+				width: 100%;
+				max-width: 200px;
 				height: auto;
-				/* padding-left: 200px; */
-				margin-top: 100px;
-				margin-bottom: 50px; /* 調整為適合的值 */
+				margin: 20px auto;
 			}
+
+			.country-container {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 10px;
+				margin: 40px auto;
+			}
+
 			.button,
 			.country-button {
 				display: inline-block;
-				padding: 10px 0px;
+				padding: 10px 20px;
 				background-color: #CE7A4F;
 				color: white;
 				text-align: center;
 				border: none;
 				cursor: pointer;
 				border-radius: 4px;
-				width: 25%;
+				margin: 10px 0;
+				width: 150px;
+				height: 40px;
+				box-sizing: border-box;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
+
 			.button:hover,
 			.country-button:hover {
 				background-color: #6E4D48;
 			}
-			.dropdown {
-				/* margin-bottom: 20px; */
-			}
-			.dropdown select {
-				padding: 10px;
-				width: 100%;
-				border: 1px solid #ccc;
-				border-radius: 4px;
-				background-color: #cfcfcf;
-			}
+
 			.results {
 				margin-top: 30px;
 			}
+
 			.result-item {
 				display: flex;
 				align-items: center;
@@ -74,37 +82,63 @@
 				border-bottom: 1px solid #ddd;
 				padding-bottom: 10px;
 			}
+
 			.result-item img {
 				width: 100px;
 				height: 100px;
 				margin-right: 15px;
 				border-radius: 6px;
 			}
+
 			.result-item > div {
 				text-align: left;
 			}
+
 			.result-item > div > span {
-				font-size: 26px;
+				font-size: 1.2em;
 				font-weight: bold;
 				display: inline-block;
-				margin: auto auto 10px auto;
+				margin-bottom: 10px;
 			}
+
 			.result-item > div > div a {
 				display: inline-block;
-				margin: 5px 5px 5px auto;
+				margin: 5px;
 				text-decoration: none;
 			}
+
 			.inline-container {
 				display: flex;
 				align-items: flex-start;
 				min-height: 60px;
 			}
+
 			.inline-container p {
 				margin: 0;
 				min-width: 48px;
 			}
+
 			.inline-container div {
 				display: inline;
+			}
+
+			@media (max-width: 600px) {
+				.button, .country-button {
+					width: 100%;
+					margin: 10px 0;
+				}
+
+				.container {
+					padding: 10px;
+				}
+
+				.logo {
+					margin: 10px 0;
+				}
+
+				.country-container {
+					grid-template-columns: repeat(2, 1fr);
+				}
 			}
 		</style>
 	</head>
@@ -112,25 +146,24 @@
 		<div id="page1" class="container">
 			<div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
 				<h1>Roming the global</h1>
-				<img src="logo.jpg" alt="LOGO" class="logo" />
+				<img src="logo.jpg" alt="LOGO" class="logo">
 				<div class="button" onclick="goToPage2()">GO!</div>
 			</div>
 		</div>
 
 		<div id="page2" class="container hidden">
-			<h1 style="text-align: start">國家</h1>
-			<div>
+			<h1 style="text-align:left">國家</h1>
+			<div class="country-container">
 				<div class="country-button" onclick="selectCountry('日本')">日本</div>
-				<div class="country-button" onclick="selectCountry('韓國')" style="margin: 25px 40px">韓國</div>
+				<div class="country-button" onclick="selectCountry('韓國')">韓國</div>
 				<div class="country-button" onclick="selectCountry('泰國')">泰國</div>
-				<br />
 				<div class="country-button" onclick="selectCountry('美國')">美國</div>
-				<div class="country-button" onclick="selectCountry('義大利')" style="margin: 25px 40px">義大利</div>
+				<div class="country-button" onclick="selectCountry('義大利')">義大利</div>
 				<div class="country-button" onclick="selectCountry('法國')">法國</div>
 			</div>
 		</div>
 
-		<div id="page3" class="container hidden">
+		<div id="page3" class="container hidden" style="height: 100%;">
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h1 id="country-title">日本</h1>
 				<div class="dropdown">
@@ -139,7 +172,7 @@
 				<div class="dropdown">
 					<select id="type"></select>
 				</div>
-				<button style="font-size: larger" class="button" onclick="search()">搜尋</button>
+				<button style="font-size: medium" class="button" onclick="search()">搜尋</button>
 				<div style="font-size: medium" class="country-button" onclick="previousPage(this)">上一頁</div>
 			</div>
 			<div class="results" id="results"></div>
@@ -147,7 +180,7 @@
 		</div>
 
 		<div id="page4" class="container hidden" style="text-align: start">
-			<div id="routeTab1" class="wrap">
+			<div class="wrap">
 				<h1>規劃路線：</h1>
 				<div class="inline-container">
 					<p>早上：</p><div id="morningText"></div>
@@ -161,21 +194,21 @@
 
 				<div style="display: flex; justify-content: space-between; margin-top: 20px;">
 					<div style="text-align: center">
-						<img src="" alt="" style="height: 100px" />
+						<img src="" alt="" style="height: 100px">
 						<p>早上</p>
 					</div>
 					<div style="text-align: center">
-						<img src="" alt="" style="height: 100px" />
+						<img src="" alt="" style="height: 100px">
 						<p>下午</p>
 					</div>
 					<div style="text-align: center">
-						<img src="" alt="" style="height: 100px" />
+						<img src="" alt="" style="height: 100px">
 						<p>晚上</p><br>
 					</div>
 				</div>
 			</div>
 
-			<div id="routeTab2" class="wrap hidden">
+			<div class="wrap">
 				<h1>移動建議：</h1>
 				<div class="inline-container">
 					<p>早上：</p><div id="morningSuggestion"></div>
@@ -192,7 +225,7 @@
 			</div>
 
 			<div style="display: flex; align-items: center; justify-content: space-between;">
-				<div style="font-size: medium" class="country-button" onclick="changeTab()">更多</div>
+				<!-- <div style="font-size: medium" class="country-button" onclick="changeTab()">更多</div> -->
 				<div style="font-size: medium" class="country-button" onclick="previousPage(this)">上一頁</div>
 			</div>
 		</div>
@@ -221,10 +254,11 @@
 				document.getElementById(newId).classList.remove("hidden");
 
 				if (parentId == 'page3') document.getElementById("results").innerHTML = "";
-				if (parentId == 'page4') {
-					document.getElementById("routeTab1").classList.remove("hidden");
-					document.getElementById("routeTab2").classList.add("hidden");
-				};
+
+				// if (parentId == 'page4') {
+				// 	document.getElementById("routeTab1").classList.remove("hidden");
+				// 	document.getElementById("routeTab2").classList.add("hidden");
+				// };
 			}
 
 			function selectCountry(country) {
@@ -459,19 +493,21 @@
 				});
 			}
 
-			function changeTab () {
-				const tab1 = document.getElementById("routeTab1");
-				const tab2 = document.getElementById("routeTab2");
+			/*
+				function changeTab () {
+					const tab1 = document.getElementById("routeTab1");
+					const tab2 = document.getElementById("routeTab2");
 
-				if (tab1.classList.contains("hidden")) {
-					tab1.classList.remove("hidden");
-					tab2.classList.add("hidden");
+					if (tab1.classList.contains("hidden")) {
+						tab1.classList.remove("hidden");
+						tab2.classList.add("hidden");
 
-				} else {
-					tab1.classList.add("hidden");
-					tab2.classList.remove("hidden");
+					} else {
+						tab1.classList.add("hidden");
+						tab2.classList.remove("hidden");
+					}
 				}
-			}
+			*/
 
 			function getImgName (i) {
 				if (i == undefined) return "";
