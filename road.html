@@ -230,8 +230,8 @@
 					<p>晚上：</p><div id="nightSuggestion"></div>
 				</div>
 
-				<h1>冷知識：</h1>
-				<div id="trivia"></div>
+				<h1 id="trivia_title"></h1>
+				<div id="trivia_content"></div>
 			</div>
 
 			<div style="display: flex; align-items: center; justify-content: space-between;">
@@ -271,7 +271,8 @@
 				// };
 			}
 
-			function selectCountry(country) {
+			function selectCountry(country)
+			{
 				document.getElementById("country-title").textContent = country;
 				document.getElementById("page2").classList.add("hidden");
 				document.getElementById("page3").classList.remove("hidden");
@@ -305,6 +306,9 @@
 				const type = document.getElementById("type").value;
 				const results = document.getElementById("results");
 				results.innerHTML = "";
+
+				const triviaTitle = document.getElementById("trivia_title");
+				triviaTitle.innerText = city + ' 冷知識：';
 
 				// 模擬搜尋結果
 				const filteredData = [
@@ -633,7 +637,7 @@
 				document.getElementById("afternoonSuggestion").innerText = item.afternoon_suggestion || "";
 				document.getElementById("nightSuggestion").innerText = item.night_suggestion || "";
 
-				const triviaContainer = document.getElementById("trivia");
+				const triviaContainer = document.getElementById("trivia_content");
 				triviaContainer.innerHTML = "";
 				const triviaArray = item.trivia || [];
 				triviaArray.forEach(trivia => {
