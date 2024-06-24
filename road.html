@@ -43,13 +43,14 @@
 			.country-container {
 				display: grid;
 				grid-template-columns: repeat(3, 1fr);
-				gap: 10px;
+				gap: 50px 0;
 				margin: 40px auto;
 			}
 
 			.button,
 			.country-button {
 				display: inline-block;
+				font-family: "Microsoft JhengHei", Arial, sans-serif;
 				padding: 10px 20px;
 				background-color: #CE7A4F;
 				color: white;
@@ -158,11 +159,11 @@
 			<h1 style="text-align:left">國家</h1>
 			<div class="country-container">
 				<div class="country-button" onclick="selectCountry('日本')">日本</div>
-				<div class="country-button">韓國</div>
-				<div class="country-button">泰國</div>
-				<div class="country-button">美國</div>
-				<div class="country-button">義大利</div>
-				<div class="country-button">法國</div>
+				<div class="country-button"  onclick="alert('請點按其它按鈕')">韓國</div>
+				<div class="country-button"  onclick="alert('請點按其它按鈕')">泰國</div>
+				<div class="country-button"  onclick="alert('請點按其它按鈕')">美國</div>
+				<div class="country-button"  onclick="alert('請點按其它按鈕')">義大利</div>
+				<div class="country-button"  onclick="alert('請點按其它按鈕')">法國</div>
 				<!--
 				<div class="country-button" onclick="selectCountry('韓國')">韓國</div>
 				<div class="country-button" onclick="selectCountry('泰國')">泰國</div>
